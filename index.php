@@ -36,6 +36,10 @@ if(isset($data->cert)) {
 		print(fread($signedFile, filesize("firmado.txt")));
 		fclose($signedFile);
 
+		$fp = fopen($signed, "w");
+		fputs($fp, '');
+		fclose($fp);
+		
 		$fp = fopen($toSign, "w");
 		fputs($fp, '');
 		fclose($fp);
