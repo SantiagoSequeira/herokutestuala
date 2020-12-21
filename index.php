@@ -32,14 +32,21 @@ if(isset($data->cert)) {
 	        array($prepend . $key, ""),
 	        array(),
 	        !PKCS7_DETACHED)) {
-		$signedFile = fopen($signed, "r");
-		print(fread($signedFile, filesize("firmado.txt")));
-		fclose($signedFile);
+		$inf=fopen($signed, "r");
+		$i = 0;
+		$CMS = '';
+		while (!feof($inf)) 
+		    { 
+		      $buffer=fgets($inf);
+		      if ( $i++ >= 4 ) {$CMS.=$buffer;}
+		    }
+	  	fclose($inf);
+		echo $CMS;
 
 		$fp = fopen($signed, "w");
 		fputs($fp, '');
 		fclose($fp);
-		
+
 		$fp = fopen($toSign, "w");
 		fputs($fp, '');
 		fclose($fp);
