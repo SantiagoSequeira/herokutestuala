@@ -1,13 +1,18 @@
 <?php
-if(isset($_POST["cert"])) {
+$json = file_get_contents('php://input');
+
+// Converts it into a PHP object
+$data = json_decode($json);
+if(isset($data->cert)) {
 	$toSign = realpath('mensaje.txt');
 	$signed = realpath('firmado.txt');
 	$cert = realpath('CertificadoDemo.pem');
 	$key = realpath('PrivateKeyDemo.key');
 
-	$pSign = $_POST["toSign"];
-	$pCert = '-----BEGIN CERTIFICATE-----' ."\n" . str_replace(' ',"\n", $_POST["cert"]) . "\n" . '-----END CERTIFICATE-----';
-	$pKey = '-----BEGIN RSA PRIVATE KEY-----'. "\n" . str_replace(' ',"\n", $_POST["key"]) ."\n" .'-----END RSA PRIVATE KEY-----';
+
+	$pSign = $data->toSign;
+	$pCert = '-----BEGIN CERTIFICATE-----' ."\n" . str_replace(' ',"\n", $data->cert) . "\n" . '-----END CERTIFICATE-----';
+	$pKey = '-----BEGIN RSA PRIVATE KEY-----'. "\n" . str_replace(' ',"\n", $data->key) ."\n" .'-----END RSA PRIVATE KEY-----';
 
 	$fp = fopen($toSign, "w");
 	fputs($fp, $pSign);
